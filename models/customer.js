@@ -1,34 +1,37 @@
-const Joi = require('joi');
+const z = require('zod');
 const mongoose = require('mongoose');
 
-const Customer = mongoose.model('Customer', new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50
-  },
-  isGold: {
-    type: Boolean,
-    default: false
-  },
-  phone: {
-    type: String,
-    required: true,
-    minlength: 5,
-    maxlength: 50
-  }
-}));
+const Customer = mongoose.model(
+  'Customer',
+  new mongoose.Schema({
+    name: {
+      type: String,
+      required: true,
+      minlength: 5,
+      maxlength: 50,
+    },
+    isGold: {
+      type: Boolean,
+      default: false,
+    },
+    phone: {
+      type: String,
+      required: true,
+      minlength: 5,
+      maxlength: 50,
+    },
+  })
+);
 
 function validateCustomer(customer) {
-  const schema = {
-    name: Joi.string().min(5).max(50).required(),
-    phone: Joi.string().min(5).max(50).required(),
-    isGold: Joi.boolean()
-  };
+  const schema = z.object({
+    name: z.string().min(5).max(50),
+    phone: z.string().min(5).max(50),
+    isGold: z.boolean().optional(),
+  });
 
-  return Joi.validate(customer, schema);
+  return z.parse(customer);
 }
 
-exports.Customer = Customer; 
+exports.Customer = Customer;
 exports.validate = validateCustomer;
