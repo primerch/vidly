@@ -14,11 +14,11 @@ const Genre = mongoose.model(
 );
 
 function validateGenre(genre) {
-  const schema = {
-    name: z.string().min(3),
-  };
+  const schema = z.object({
+    name: z.string().min(5).max(50),
+  });
 
-  return z.parse(genre);
+  return schema.parse(genre);
 }
 
 exports.Genre = Genre;
