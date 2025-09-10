@@ -5,8 +5,19 @@ const { Customer, validate } = require('../models/customer');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const customers = await Customer.find();
+  const customers = await Customer.find().sort('name');
   res.send(customers);
+});
+
+router.get('/:id', async (req, res) => {
+  const customer = await Customer.findById(req.params.id);
+
+  if (!customer)
+    return res
+      .status(404)
+      .send('The customer with the given ID was not found.');
+
+  res.send(customer);
 });
 
 router.post('/', async (req, res) => {
@@ -14,19 +25,20 @@ router.post('/', async (req, res) => {
     const validatedCustomer = validate(req.body);
     const newCustomer = new Customer(validatedCustomer);
     const result = await newCustomer.save();
-    return res.status(200).send(result);
+    res.status(201).send(result);
   } catch (err) {
     if (err instanceof z.ZodError)
       return res
         .status(400)
         .send(err.issues.map((issue) => issue.message).join(', '));
-    else return res.status(500).send('An enexpected Error occured');
+    else return res.status(500).send('An enexpected Error occurred');
   }
 });
 
 router.put('/:id', async (req, res) => {
   try {
     const validatedCustomer = validate(req.body);
+
     const customer = await Customer.findByIdAndUpdate(
       req.params.id,
       validatedCustomer,
@@ -34,8 +46,12 @@ router.put('/:id', async (req, res) => {
         new: true,
       }
     );
+    if (!customer)
+      return res
+        .status(404)
+        .send('The customer with the given ID was not found.');
 
-    return res.status(200).send(customer);
+    res.status(200).send(customer);
   } catch (err) {
     if (err instanceof z.ZodError)
       return res
@@ -46,16 +62,13 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-  try {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
-    return res.status(200).send(customer);
-  } catch (err) {
-    if (err instanceof z.ZodError)
-      return res
-        .status(400)
-        .send(err.issues.map((issue) => issue.message).join('. '));
-    else return res.status(500).send('An enexpected Error occured');
-  }
+  const customer = await Customer.findByIdAndDelete(req.params.id);
+  if (!customer)
+    return res
+      .status(404)
+      .send('The customer with the given ID was not found.');
+
+  res.status(204).send(customer);
 });
 
 module.exports = router;
