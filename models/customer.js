@@ -30,7 +30,7 @@ function validateCustomer(customer) {
     isGold: z.boolean().optional(),
   });
 
-  return z.parse(customer);
+  return schema.parse(customer);
 }
 
 exports.Customer = Customer;

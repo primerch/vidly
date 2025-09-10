@@ -13,7 +13,7 @@ mongoose
 
 app.use(express.json());
 app.use('/api/genres', genres);
-app.use('api/customers', customers);
+app.use('/api/customers', customers);
 
 const port = process.env.PORT || 3000;
 
