@@ -1,17 +1,16 @@
 const z = require('zod');
 const mongoose = require('mongoose');
 
-const Genre = mongoose.model(
-  'Genre',
-  new mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-      minlength: 5,
-      maxlength: 50,
-    },
-  })
-);
+const schema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 50,
+  },
+});
+
+const Genre = mongoose.model('Genre', schema);
 
 function validateGenre(genre) {
   const schema = z.object({
@@ -23,3 +22,4 @@ function validateGenre(genre) {
 
 exports.Genre = Genre;
 exports.validate = validateGenre;
+exports.genreSchema = schema;
