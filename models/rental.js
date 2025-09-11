@@ -5,30 +5,35 @@ const Rental = mongoose.model(
   'Rental',
   new mongoose.Schema({
     customer: {
-      name: {
-        type: String,
-        required: true,
-        minLength: 5,
-        maxLength: 50,
-      },
-      isGold: {
-        type: Boolean,
-      },
-      phone: {
-        type: String,
-        required: true,
-        minLength: 5,
-        maxLength: 50,
-      },
+      type: new mongoose.Schema({
+        name: {
+          type: String,
+          required: true,
+          minLength: 5,
+          maxLength: 50,
+        },
+        isGold: {
+          type: Boolean,
+          default: false,
+        },
+        phone: {
+          type: String,
+          required: true,
+          minLength: 5,
+          maxLength: 50,
+        },
+      }),
     },
     movie: {
-      title: {
-        type: String,
-        required: true,
-        trim: true,
-        minLength: 5,
-        maxLength: 255,
-      },
+      type: new mongoose.Schema({
+        title: {
+          type: String,
+          required: true,
+          trim: true,
+          minLength: 5,
+          maxLength: 255,
+        },
+      }),
     },
     dateOut: {
       type: Date,
