@@ -23,6 +23,7 @@ const Rental = mongoose.model(
           maxLength: 50,
         },
       }),
+      required: true,
     },
     movie: {
       type: new mongoose.Schema({
@@ -33,7 +34,14 @@ const Rental = mongoose.model(
           minLength: 5,
           maxLength: 255,
         },
+        dailyRentalRate: {
+          type: Number,
+          required: true,
+          min: 0,
+          max: 255,
+        },
       }),
+      required: true,
     },
     dateOut: {
       type: Date,
@@ -54,9 +62,6 @@ const validateRental = (rental) => {
   const schema = z.object({
     customerId: z.string(),
     movieId: z.string(),
-    dateOut: z.date().optional(),
-    dateReturned: z.date().optional(),
-    rentalFee: z.number().optional(),
   });
 
   return schema.parse(rental);

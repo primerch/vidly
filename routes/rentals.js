@@ -26,18 +26,28 @@ router.post('/', async (req, res) => {
     const movie = await Movie.findById(validatedData.movieId);
     if (!movie) return res.status(400).send('Cannot find the movie');
 
-    const newRental = new Rental({
+    if (movie.numberInStock === 0)
+      return res.status(400).send('Movie not in stock.');
+
+    const rental = new Rental({
       customer: {
+        _id: customer._id,
         name: customer.name,
         isGold: customer.isGold,
         phone: customer.phone,
       },
       movie: {
+        _id: movie._id,
         title: movie.title,
+        dailyRentalRate: movie.dailyRentalRate,
       },
     });
 
-    const result = await newRental.save();
+    const result = await rental.save();
+
+    movie.numberInStock--;
+    movie.save();
+
     res.status(201).send(result);
   } catch (err) {
     console.log('🚀 ~ err:', err);
