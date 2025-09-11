@@ -22,19 +22,16 @@ router.post('/', async (req, res) => {
     const validatedMovie = validate(req.body);
 
     const genre = await Genre.findById(validatedMovie.genreId);
-    if (!genre)
-      return res
-        .status(404)
-        .send('cannot find the genre ID you are tring to insert');
+    if (!genre) return res.status(400).send('Invalid genre.');
 
     const movie = new Movie({
       title: validatedMovie.title,
       genre: {
-        _id: validatedMovie.genreId,
+        _id: genre._id,
         name: genre.name,
       },
-      numberInStock: 0,
-      dailyRentalRate: 0,
+      numberInStock: validatedMovie.numberInStock,
+      dailyRentalRate: validatedMovie.dailyRentalRate,
     });
 
     const result = await movie.save();
