@@ -45,4 +45,48 @@ router.post('/', async (req, res) => {
     return res.status(500).send('An unexpected Error Occurred');
   }
 });
+
+router.put('/:id', async (req, res) => {
+  try {
+    const validatedMovie = validate(req.body);
+
+    const genre = await Genre.findById(validatedMovie.genreId);
+    if (!genre) return res.status(400).send('Invalid genre.');
+
+    const movie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: validatedMovie.title,
+        genre: {
+          _id: genre._id,
+          name: genre.name,
+        },
+        numberInStock: validatedMovie.numberInStock,
+        dailyRentalRate: validatedMovie.dailyRentalRate,
+      },
+      { new: true }
+    );
+
+    if (!movie)
+      return res.status(404).send('The movie with the given ID was not found.');
+
+    res.status(200).send(movie);
+  } catch (err) {
+    if (err instanceof z.ZodError)
+      return res
+        .status(400)
+        .send(err.issues.map((issue) => issue.message).join(', '));
+    return res.status(500).send('An unexpected Error Occurred');
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  const movie = await Movie.findByIdAndDelete(req.params.id);
+  
+  if (!movie)
+    return res.status(404).send('The movie with the given ID was not found.');
+
+  res.status(200).send(movie);
+});
+
 module.exports = router;

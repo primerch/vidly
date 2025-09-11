@@ -2,15 +2,29 @@
 GET http://localhost:3000/api/movies HTTP/1.1
 
 ### GET BY ID
-GET http://localhost:3000/api/movies/68c2308476702946ac3c2d9a HTTP/1.1
+GET http://localhost:3000/api/movies/68c23f8ac4b555e6cbbd79ff HTTP/1.1
 
 ### POST
 POST http://localhost:3000/api/movies HTTP/1.1
 Content-Type: application/json
 
  {
-    "title":"Terminator",
+    "title":"Terminator XXX",
     "genreId": "68c226afd5e25d361e4b7dcb",
     "numberInStock": 0,
     "dailyRentalRate": 0
  }
+
+### PUT
+PUT http://localhost:3000/api/movies/68c23f8ac4b555e6cbbd79ff HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Terminator 2",
+  "genreId": "68c226afd5e25d361e4b7dcb",
+  "numberInStock": 10,
+  "dailyRentalRate": 2.5
+}
+
+### DELETE
+DELETE http://localhost:3000/api/movies/68c23f8ac4b555e6cbbd79ff HTTP/1.1
