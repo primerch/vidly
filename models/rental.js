@@ -58,10 +58,17 @@ const Rental = mongoose.model(
   })
 );
 
+// Custom ObjectID Schema
+const objectIdSchema = z
+  .string()
+  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    message: 'Invalid ObjectId',
+  });
+
 const validateRental = (rental) => {
   const schema = z.object({
-    customerId: z.string(),
-    movieId: z.string(),
+    customerId: objectIdSchema,
+    movieId: objectIdSchema,
   });
 
   return schema.parse(rental);

@@ -18,10 +18,17 @@ const Movie = mongoose.model(
   })
 );
 
+// Custom ObjectID Schema
+const objectIdSchema = z
+  .string()
+  .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+    message: 'Invalid ObjectId',
+  });
+
 function validateMovie(movie) {
   const schema = z.object({
     title: z.string().min(5).max(255),
-    genreId: z.string(),
+    genreId: objectIdSchema,
     numberInStock: z.number().min(0),
     dailyRentalRate: z.number().min(0),
   });
