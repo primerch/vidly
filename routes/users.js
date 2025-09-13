@@ -21,11 +21,12 @@ router.post('/', async (req, res) => {
         .join(', ')
     );
 
-  const user = await User.findOne({ email: validatedResult.data.email });
+  let user = await User.findOne({ email: validatedResult.data.email });
 
-  if (user) return res.status(400).send('User already resigereds');
+  if (user) return res.status(400).send('User already registered.');
 
-  const newUser = new User(validatedResult.data);
+  user = new User(validatedResult.data);
+  const newUser = new User(user);
   const result = await newUser.save();
   res.status(200).send(result);
 });
