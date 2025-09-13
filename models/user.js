@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    required: true,
     minLength: 5,
     maxLength: 255,
     unique: true,
@@ -27,10 +28,10 @@ const User = mongoose.model('User', userSchema);
 
 const validateUser = (user) => {
   const schema = z.object({
-    name: z.string().min(5).max(255),
-    email: z.string().min(5).max(255).optional(),
-    password: z.string().min(5).max(25),
-    isAdmin: z.boolean(),
+    name: z.string().min(5).max(50),
+    email: z.email().min(5).max(255),
+    password: z.string().min(5).max(1024),
+    isAdmin: z.boolean().optional(),
   });
   return schema.parse(user);
 };
