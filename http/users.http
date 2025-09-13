@@ -1,0 +1,10 @@
+# GET
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "name": "Reacher",
+    "email": "macryze@icloud.com",
+    "password":"rzxq1314!!!!",
+    "isAdmin": true
+}

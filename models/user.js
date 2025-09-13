@@ -33,7 +33,7 @@ const validateUser = (user) => {
     password: z.string().min(5).max(1024),
     isAdmin: z.boolean().optional(),
   });
-  return schema.parse(user);
+  return schema.safeParse(user);
 };
 
 module.exports.User = User;
