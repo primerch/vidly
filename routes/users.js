@@ -1,6 +1,7 @@
 const express = require('express');
 const { User, validate } = require('../models/user');
 const router = express.Router();
+const bcrypt = require('bcrypt');
 
 router.get('/', async (req, res) => {
   const result = await User.find().sort('name');
@@ -25,7 +26,10 @@ router.post('/', async (req, res) => {
 
   if (user) return res.status(400).send('User already registered.');
 
-  user = new User(data);
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(data.password, salt);
+
+  user = new User({ ...data, password: hashedPassword });
 
   const { _id, name, email } = await user.save();
 
