@@ -3,8 +3,8 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-    "name": "Reacher",
-    "email": "macryze@icloud.com",
+    "name": "Reachers",
+    "email": "macryaze@aiasacalodsaaaauad.csom",
     "password":"rzxq1314!!!!",
     "isAdmin": true
 }
