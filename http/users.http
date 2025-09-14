@@ -5,6 +5,6 @@ Content-Type: application/json
 {
     "name": "Reachers",
     "email": "macryze@icloud.com",
-    "password":"rzxq1314!!!!",
+    "password":"rzxq1314",
     "isAdmin": true
 }
