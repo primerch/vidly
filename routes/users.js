@@ -10,22 +10,22 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {});
 
 router.post('/', async (req, res) => {
-  const validatedResult = validate(req.body);
+  const { success, data, error } = validate(req.body);
 
-  if (!validatedResult.success)
+  if (!success)
     return res.status(400).send(
-      validatedResult.error.issues
+      error.issues
         .map((issue) => {
           return issue.path + ': ' + issue.message;
         })
         .join(', ')
     );
 
-  let user = await User.findOne({ email: validatedResult.data.email });
+  let user = await User.findOne({ email: data.email });
 
   if (user) return res.status(400).send('User already registered.');
 
-  user = new User(validatedResult.data);
+  user = new User(data);
   const newUser = new User(user);
   const result = await newUser.save();
   res.status(200).send(result);
