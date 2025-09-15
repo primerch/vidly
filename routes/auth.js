@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
 const validate = (req) => {
   const schema = z.object({
     email: z.email().min(5).max(255),
-    password: z.string().min(5).max(1024),
+   password: z.string().min(5).max(1024),
   });
   return schema.safeParse(req);
 };
