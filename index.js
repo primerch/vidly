@@ -10,6 +10,11 @@ const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL ERROR: jstPrivateKey is not defined.');
+  process.exit(1);
+}
+
 mongoose
   .connect('mongodb://localhost/vidly')
   .then(() => console.log('Connected To MongoDB...'))
