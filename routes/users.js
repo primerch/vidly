@@ -1,14 +1,15 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const { User, validate } = require('../models/user');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
-router.get('/', async (req, res) => {
-  const result = await User.find().sort('name');
-  res.status(200).send(result);
+router.get('/me', auth, async (req, res) => {
+  console.log('🚀 ~ req:', req);
+  const id = req.user.id;
+  const user = await User.findById(id).select('-password');
+  res.status(200).send(user);
 });
-
-router.get('/:id', async (req, res) => {});
 
 router.post('/', async (req, res) => {
   const { success, data, error } = validate(req.body);

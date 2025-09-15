@@ -1,4 +1,8 @@
-# GET
+###  GET ME
+GET http://localhost:3000/api/users/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjY4YzdlMjcwZjBlYzY3YzA1MDg1YjZiYSIsImlhdCI6MTc1NzkzMDA5NiwiZXhwIjoxNzU3OTMzNjk2fQ.OlUSpID1C8jLtuERTAUqGjM-VTGO82PWm__hcyS_V2k
+
+### POST
 POST http://localhost:3000/api/users
 Content-Type: application/json
 
