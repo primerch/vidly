@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const z = require('zod');
 const { Genre, validate } = require('../models/genre');
@@ -18,7 +19,7 @@ router.get('/:id', async (req, res) => {
   res.send(genre);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     const body = req.body;
 

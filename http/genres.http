@@ -7,6 +7,7 @@ GET http://localhost:3000/api/genres/68c1a2b5b58cb666743c132b HTTP/1.1
 ### POST
 POST http://localhost:3000/api/genres HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6eyJidWZmZXIiOnsiMCI6MTA0LCIxIjoxOTksIjIiOjIyMiwiMyI6NjQsIjQiOjIwMSwiNSI6MjA5LCI2IjoxMjcsIjciOjUwLCI4IjoyMTYsIjkiOjUwLCIxMCI6MjQ0LCIxMSI6MTA3fX0sImlhdCI6MTc1NzkyOTAyNCwiZXhwIjoxNzU3OTMyNjI0fQ.gJRZU0fn6397ILMuTMYN3h73vtMbREBwMYHzbfFDFzQ
 
 {
    "name" : "Sci-fi"
