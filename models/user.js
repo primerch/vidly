@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const z = require('zod');
+const jose = require('jose');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -23,6 +24,17 @@ const userSchema = new mongoose.Schema({
   },
   isAdmin: Boolean,
 });
+
+userSchema.methods.generateAuthToken = async function () {
+  const keyString = process.env.JWT_SECRET;
+  const secret = new TextEncoder().encode(keyString);
+  const token = await new jose.SignJWT({ id: this._id })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1h')
+    .sign(secret);
+  return token;
+};
 
 const User = mongoose.model('User', userSchema);
 

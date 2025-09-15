@@ -2,7 +2,6 @@ const express = require('express');
 const { User, validate } = require('../models/user');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const jose = require('jose');
 
 router.get('/', async (req, res) => {
   const result = await User.find().sort('name');
@@ -35,13 +34,7 @@ router.post('/', async (req, res) => {
   const { _id, name, email } = await user.save();
 
   //
-  const keyString = process.env.JWT_SECRET;
-  const secret = new TextEncoder().encode(keyString);
-  const token = await new jose.SignJWT({ id: _id })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('1h')
-    .sign(secret);
+  const token = user.generateAuthToken();
 
   res.header('Authorization', `Bearer ${token}`).send({ _id, name, email });
 });
