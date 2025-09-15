@@ -28,7 +28,10 @@ const userSchema = new mongoose.Schema({
 userSchema.methods.generateAuthToken = async function () {
   const keyString = process.env.JWT_SECRET;
   const secret = new TextEncoder().encode(keyString);
-  const token = await new jose.SignJWT({ id: this._id.toString() })
+  const token = await new jose.SignJWT({
+    id: this._id.toString(),
+    isAdmin: this.isAdmin,
+  })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime('1h')
