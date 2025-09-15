@@ -8,7 +8,6 @@ const z = require('zod');
 // Correct approach: Generate the secret ONCE, outside of the request handler.
 // This is a placeholder. REMEMBER to replace this with an environment variable later.
 const keyString = process.env.JWT_SECRET;
-console.log('🚀 ~ keyString:', keyString);
 const secret = new TextEncoder().encode(keyString);
 
 router.post('/', async (req, res) => {
