@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
   const { _id, name, email } = await user.save();
 
   //
-  const token = user.generateAuthToken();
+  const token = await user.generateAuthToken();
 
   res.header('Authorization', `Bearer ${token}`).send({ _id, name, email });
 });
