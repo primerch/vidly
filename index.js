@@ -2,11 +2,11 @@ require('dotenv').config();
 
 const winston = require('winston');
 require('winston-mongodb');
-const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
 require('./startup/routes')(app);
+require('./startup/db')();
 
 winston.add(new winston.transports.File({ filename: 'logfile.log' }));
 winston.add(
@@ -46,11 +46,6 @@ if (!process.env.JWT_SECRET) {
   console.error('FATAL ERROR: jstPrivateKey is not defined.');
   process.exit(1);
 }
-
-mongoose
-  .connect('mongodb://localhost/vidly')
-  .then(() => console.log('Connected To MongoDB...'))
-  .catch((err) => console.log('Could Not Connect To MongoDB...'));
 
 const port = process.env.PORT || 3000;
 
