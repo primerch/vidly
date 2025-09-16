@@ -5,6 +5,4 @@ module.exports = function () {
   mongoose
     .connect('mongodb://localhost/vidly')
     .then(() => winston.info('Connected To MongoDB...'));
-
-
 };

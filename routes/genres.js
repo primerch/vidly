@@ -8,7 +8,6 @@ const asyncMiddleware = require('../middleware/async');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  throw new Error('Could not get the genres.');
   const genres = await Genre.find().sort('name');
   res.send(genres);
 });
