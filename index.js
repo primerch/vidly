@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const winston = require('winston');
 const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
@@ -10,6 +11,8 @@ const rentals = require('./routes/rentals');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
 const error = require('./middleware/error');
+
+winston.add(new winston.transports.File({filename: 'logfile.log'}))
 
 if (!process.env.JWT_SECRET) {
   console.error('FATAL ERROR: jstPrivateKey is not defined.');
