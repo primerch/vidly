@@ -3,7 +3,6 @@ module.exports = {
     binary: {
       skipMD5: true,
     },
-    autoStart: false,
     instance: {},
   },
 };

@@ -3,12 +3,14 @@ require('winston-mongodb');
 
 module.exports = function () {
   winston.add(new winston.transports.File({ filename: 'logfile.log' }));
-  winston.add(
-    new winston.transports.MongoDB({
-      db: 'mongodb://localhost/vidly',
-      level: 'error',
-    })
-  );
+  if (process.env.NODE_ENV !== 'test') {
+    winston.add(
+      new winston.transports.MongoDB({
+        db: 'mongodb://localhost/vidly',
+        level: 'error',
+      })
+    );
+  }
 
   winston.exceptions.handle(
     // logs uncaught exceptions
