@@ -37,7 +37,7 @@ router.post('/', auth, async (req, res) => {
   } catch (err) {
     if (err instanceof z.ZodError)
       return res
-        .status(400)
+        .status(401)
         .send(err.issues.map((issue) => issue.message).join(', '));
     else return res.status(500).send('An unexpected Error occurred');
   }
