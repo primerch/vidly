@@ -46,7 +46,7 @@ describe('/api/genres', () => {
     it('should return 404 if invalid id is passed', async () => {
       const response = await request(server).get(`/api/genres/1`);
       expect(response.status).toBe(404);
-      expect(response.text).toBe('Invalid Id.');
+      expect(response.text).toBe('The genre with the give Id not found');
     });
   });
 });
