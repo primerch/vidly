@@ -49,4 +49,14 @@ describe('/api/genres', () => {
       expect(response.text).toBe('The genre with the give Id not found');
     });
   });
+
+  describe('POST /', () => {
+    it('should return 401 if client is not logged in', async () => {
+      const response = await request(server)
+        .post('/api/genres')
+        .send({ name: 'genre1' });
+
+      expect(response.status).toBe(401);
+    });
+  });
 });
