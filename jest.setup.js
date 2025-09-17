@@ -1,18 +1,27 @@
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+let mongoServer;
 
 beforeAll(async () => {
-  console.log('🚀 Connecting to in-memory MongoDB at:', global.__MONGO_URI__);
-  await mongoose.connect(global.__MONGO_URI__);
-});
+  // Disconnect from any existing connection
+  if (mongoose.connection.readyState !== 0) {
+    await mongoose.disconnect();
+  }
+  mongoServer = await MongoMemoryServer.create();
+  const uri = mongoServer.getUri();
 
-afterAll(async () => {
-  await mongoose.connection.close();
+  await mongoose.connect(uri);
 });
 
 afterEach(async () => {
-  // optional: clean all collections after each test
   const collections = Object.values(mongoose.connection.collections);
-  for (let collection of collections) {
+  for (const collection of collections) {
     await collection.deleteMany({});
   }
+});
+
+afterAll(async () => {
+  await mongoose.disconnect();
+  await mongoServer.stop();
 });
