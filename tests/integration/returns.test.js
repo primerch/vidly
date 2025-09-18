@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Rental } = require('../../models/rental');
 const request = require('supertest');
 const { User } = require('../../models/user');
+const { Customer } = require('../../models/customer');
 
 // POST /api/returns {customerId, movieId}
 describe('/api/returns', () => {
@@ -79,7 +80,13 @@ describe('/api/returns', () => {
     expect(response.status).toBe(400);
   });
 
-  // Return 404 if no rental found for this customer/movie
+  it(' Return 404 if no rental found for the customer/movie ', async () => {
+    await Rental.deleteMany({});
+
+    const response = await exec();
+
+    expect(response.status).toBe(404);
+  });
 
   // Return 400 if rental already processed
 

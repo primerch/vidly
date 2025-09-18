@@ -5,7 +5,7 @@ const { User } = require('../../models/user');
 
 let server;
 
-describe('/api/genres', () => {AnalyserNode
+describe('/api/genres', () => {
   beforeAll(() => {
     server = require('../../index');
   });
