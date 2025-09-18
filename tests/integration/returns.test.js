@@ -100,6 +100,13 @@ describe('/api/returns', () => {
   });
 
   // Return 200 if valid request
+  it('should return 200 if we have valid request', async () => {
+    const token = await new User().generateAuthToken();
+
+    const response = await exec().set('Authorization', token);
+
+    expect(response.status).toBe(200);
+  });
 
   // Set the return date
 
