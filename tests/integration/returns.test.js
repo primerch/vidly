@@ -109,7 +109,18 @@ describe('/api/returns', () => {
   });
 
   // Set the return date
+  it('should set the returnDate if input is valid', async () => {
+    const token = await new User().generateAuthToken();
 
+    const res = await exec().set('Authorization', token);
+
+    const rentalInDb = await Rental.findById(rental._id);
+
+    const diff = new Date() - rentalInDb.dateReturned;
+    expect(diff).toBeLessThan(10 * 1000);
+
+    expect(rentalInDb.dateReturned).toBeDefined();
+  });
   // Calculate the rental fee
 
   // Increase the stock
