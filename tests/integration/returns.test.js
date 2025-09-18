@@ -80,7 +80,7 @@ describe('/api/returns', () => {
     expect(response.status).toBe(400);
   });
 
-  it(' Return 404 if no rental found for the customer/movie ', async () => {
+  it('should return 404 if no rental found for the customer/movie ', async () => {
     await Rental.deleteMany({});
 
     const response = await exec();
@@ -89,6 +89,15 @@ describe('/api/returns', () => {
   });
 
   // Return 400 if rental already processed
+  it('should return 400 if rental is already processed', async () => {
+    rental.dateReturned = new Date();
+
+    await rental.save();
+
+    const response = await exec();
+
+    expect(response.status).toBe(400);
+  });
 
   // Return 200 if valid request
 

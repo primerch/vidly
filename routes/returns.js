@@ -4,7 +4,6 @@ const auth = require('../middleware/auth');
 const { Rental } = require('../models/rental');
 
 router.post('/', async (req, res) => {
-  console.log('🚀 ~ req.body:', req.body);
   if (!req.body.customerId) return res.status(400).send('customerId not found');
   if (!req.body.movieId) return res.status(400).send('movieId not found');
 
@@ -14,6 +13,9 @@ router.post('/', async (req, res) => {
   });
 
   if (!rental) return res.status(404).send('Rental not found');
+
+  if (rental.dateReturned)
+    return res.status(400).send('Return already processed.');
 
   res.status(401).send('Unauthorized');
 });
