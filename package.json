@@ -11,7 +11,7 @@
     "zod": "^4.1.5"
   },
   "scripts": {
-    "test": "jest --detectOpenHandles"
+    "test": "jest ----watchAll --verbose --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.28.4",
