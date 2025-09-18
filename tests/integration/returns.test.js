@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { Rental } = require('../../models/rental');
 const request = require('supertest');
+const { User } = require('../../models/user');
 
 // POST /api/returns {customerId, movieId}
 describe('/api/returns', () => {
@@ -8,6 +9,11 @@ describe('/api/returns', () => {
   let customerId;
   let movieId;
   let rental;
+  let token;
+
+  const exec = () => {
+    return request(server).post('/api/returns').send({ customerId, movieId });
+  };
 
   beforeAll(() => {});
 
@@ -15,7 +21,7 @@ describe('/api/returns', () => {
     server = require('../../');
     customerId = new mongoose.Types.ObjectId();
     movieId = new mongoose.Types.ObjectId();
-
+    token = await new User().generateAuthToken();
     rental = new Rental({
       customer: {
         _id: customerId,
@@ -47,6 +53,7 @@ describe('/api/returns', () => {
   });
 
   it('Return 401 if client is not logged in ', async () => {
+    token = '';
     const response = await request(server)
       .post('/api/returns')
       .send({ customerId, movieId });
@@ -55,8 +62,22 @@ describe('/api/returns', () => {
   });
 
   // Return 400 if customerId not provided
+  it('should return 400 if customerId is not provided', async () => {
+    customerId = '';
+
+    const response = await exec();
+
+    expect(response.status).toBe(400);
+  });
 
   // Return 400 if movieId not provided
+  it('should return 400 if movieId not provided', async () => {
+    movieId = '';
+
+    const response = await exec();
+
+    expect(response.status).toBe(400);
+  });
 
   // Return 404 if no rental found for this customer/movie
 
